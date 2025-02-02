@@ -6,37 +6,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const gradientOverlay = document.getElementById('gradientOverlay');
     const totalNumber = document.getElementById('totalNumber');
 
-    
-    //***** HIDE AND SHOW DESCRIPTIONS *****//
-    descriptions.forEach(description => {
-        const fullText = description.getAttribute('data-full-text');
-        
-        // Check if fullText is null or empty
-        if (!fullText) {
-            console.error("Full text not found for description:", description);
-            return; // Skip processing this description if data-full-text is missing
-        }
-
-        const truncatedText = fullText.slice(0, 150);
-        
-        // Set initial truncated text
-        description.innerHTML = `${truncatedText}<span class="ellipsis">...</span> <a href="#" class="show-more">more</a>`;
-
-        // Event listener for 'show more'
-        description.addEventListener('click', (event) => {
-            event.preventDefault();
-            const target = event.target;
-
-            if (target.classList.contains('show-more')) {
-                // Show full text with 'less' link
-                description.innerHTML = `${fullText} <a href="#" class="show-less">less</a>`;
-            } else if (target.classList.contains('show-less')) {
-                // Return to truncated text with 'show more' link
-                description.innerHTML = `${truncatedText}<span class="ellipsis">...</span> <a href="#" class="show-more">more</a>`;
-            }
+    // Fetch descriptions from JSON file
+    fetch("domains.json")
+        .then(response => response.json())
+        .then(data => {
+            data.forEach((item, index) => {
+                const descElement = document.getElementById(`description-${index + 1}`);
+                if (descElement) {
+                    // Convert fullDescription array to HTML with bullets
+                    const fullDescriptionHTML = item.fullDescription.map(line => `<li>${line}</li>`).join('');
+                    descElement.innerHTML = `<strong>${item.shortDescription}</strong><ul>${fullDescriptionHTML}</ul>`;
+                }
+            });
         });
-    });
-    
 
     //***** SCORE POSITIONING *****//
 
@@ -91,5 +73,3 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initial update to set total proficiency and visualization based on loaded values
     updateTotalProficiency();
 });
-
-
