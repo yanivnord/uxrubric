@@ -1,0 +1,17 @@
+{
+  "name": "uxrubric",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "test": "jest"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "jest": "^27.0.6"
+  },
+  "author": "",
+  "license": "ISC"
+}
